@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DepartmentMetricSummary, OperationalAlert, Intervention } from '../../types';
+import { apiService } from '../../services/api';
 import {
   Droplets,
   Trash2,
@@ -46,6 +47,27 @@ export const DepartmentPerformanceView: React.FC<DepartmentPerformanceViewProps>
       ? selectedDeptFilter
       : departments[0]?.name || 'Water Supply'
   );
+
+  const [referenceData, setReferenceData] = useState<any>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    apiService.getReferenceData().then((res) => {
+      if (isMounted && res?.data?.reference_datasets) {
+        setReferenceData(res.data.reference_datasets);
+      }
+    }).catch((err) => {
+      console.warn('[DepartmentPerformanceView] Failed to fetch reference data:', err);
+    });
+
+    return () => { isMounted = false; };
+  }, []);
+
+  useEffect(() => {
+    if (selectedDeptFilter && departments.some(d => d.name === selectedDeptFilter)) {
+      setActiveDeptName(selectedDeptFilter);
+    }
+  }, [selectedDeptFilter, departments]);
 
   const currentDept = departments.find(d => d.name === activeDeptName) || departments[0];
 
@@ -154,6 +176,19 @@ export const DepartmentPerformanceView: React.FC<DepartmentPerformanceViewProps>
                 {currentDept.complianceRate}%
               </div>
             </div>
+            <div className="h-10 w-px bg-slate-200"></div>
+            <div className="text-right">
+              <div className="text-xs text-emerald-700 font-medium flex items-center justify-end gap-1">
+                <Database className="w-3 h-3 text-emerald-600" />
+                <span>Verified Baseline</span>
+              </div>
+              <div className="font-mono font-bold text-sm text-emerald-700">
+                {activeDeptName === 'Water Supply' && '100.0% Tap (JJM)'}
+                {activeDeptName === 'Sanitation' && '53,523 IHHL (SBM)'}
+                {activeDeptName === 'Healthcare' && '11,010 HMIS Recs'}
+                {activeDeptName !== 'Water Supply' && activeDeptName !== 'Sanitation' && activeDeptName !== 'Healthcare' && '35 Wards (MCG)'}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -226,17 +261,25 @@ export const DepartmentPerformanceView: React.FC<DepartmentPerformanceViewProps>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                 <div className="p-3 bg-white rounded-lg border border-slate-200">
                   <div className="text-slate-500 font-medium">JJM Har Ghar Jal State Baseline</div>
-                  <div className="font-mono font-bold text-lg text-slate-900 mt-1">100.0% Tap Coverage</div>
-                  <div className="text-slate-500 text-[11px] mt-0.5">30,41,314 / 30,41,314 Haryana households</div>
+                  <div className="font-mono font-bold text-lg text-slate-900 mt-1">
+                    {referenceData?.water_coverage?.coverage_pct !== undefined ? `${referenceData.water_coverage.coverage_pct.toFixed(1)}% Tap Coverage` : '100.0% Tap Coverage'}
+                  </div>
+                  <div className="text-slate-500 text-[11px] mt-0.5">
+                    {referenceData?.water_coverage?.total_households ? `${referenceData.water_coverage.households_with_tap.toLocaleString()} / ${referenceData.water_coverage.total_households.toLocaleString()} Haryana households` : '30,41,314 / 30,41,314 Haryana households'}
+                  </div>
                 </div>
                 <div className="p-3 bg-white rounded-lg border border-slate-200">
                   <div className="text-slate-500 font-medium">Calculation Audit & Discrepancy</div>
-                  <div className="font-mono font-bold text-lg text-emerald-700 mt-1">0.0% Discrepancy</div>
+                  <div className="font-mono font-bold text-lg text-emerald-700 mt-1">
+                    {referenceData?.water_coverage?.discrepancy !== undefined ? `${referenceData.water_coverage.discrepancy.toFixed(1)}% Discrepancy` : '0.0% Discrepancy'}
+                  </div>
                   <div className="text-slate-500 text-[11px] mt-0.5">National avg: 82.59% (159.8M tap conns)</div>
                 </div>
                 <div className="p-3 bg-white rounded-lg border border-slate-200">
                   <div className="text-slate-500 font-medium">Data Provenance & Scope</div>
-                  <div className="font-mono text-slate-700 mt-1">fhtc_water_coverage.pdf</div>
+                  <div className="font-mono text-slate-700 mt-1">
+                    {referenceData?.water_coverage?.source || 'fhtc_water_coverage.pdf'}
+                  </div>
                   <div className="text-slate-400 text-[11px] mt-0.5">State-level macro baseline; local ward incidents simulated.</div>
                 </div>
               </div>
@@ -246,17 +289,23 @@ export const DepartmentPerformanceView: React.FC<DepartmentPerformanceViewProps>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                 <div className="p-3 bg-white rounded-lg border border-slate-200">
                   <div className="text-slate-500 font-medium">SBM-Grameen Gurugram Latrines</div>
-                  <div className="font-mono font-bold text-lg text-slate-900 mt-1">53,523 Units Achieved</div>
+                  <div className="font-mono font-bold text-lg text-slate-900 mt-1">
+                    {referenceData?.sanitation?.ihhl_total_ach ? `${referenceData.sanitation.ihhl_total_ach.toLocaleString()} Units Achieved` : '53,523 Units Achieved'}
+                  </div>
                   <div className="text-slate-500 text-[11px] mt-0.5">Census Code LGD District Record</div>
                 </div>
                 <div className="p-3 bg-white rounded-lg border border-slate-200">
                   <div className="text-slate-500 font-medium">IHHL Sanitation Coverage</div>
-                  <div className="font-mono font-bold text-lg text-emerald-700 mt-1">100.0% Verified</div>
+                  <div className="font-mono font-bold text-lg text-emerald-700 mt-1">
+                    {referenceData?.sanitation?.coverage_pct !== undefined ? `${referenceData.sanitation.coverage_pct.toFixed(1)}% Verified` : '100.0% Verified'}
+                  </div>
                   <div className="text-slate-500 text-[11px] mt-0.5">State total: 22 Haryana districts recorded</div>
                 </div>
                 <div className="p-3 bg-white rounded-lg border border-slate-200">
                   <div className="text-slate-500 font-medium">Data Provenance & Scope</div>
-                  <div className="font-mono text-slate-700 mt-1">sanitation_dataset.csv</div>
+                  <div className="font-mono text-slate-700 mt-1">
+                    {referenceData?.sanitation?.source || 'sanitation_dataset.csv'}
+                  </div>
                   <div className="text-slate-400 text-[11px] mt-0.5">Open data district record; mechanical compactor telemetry simulated.</div>
                 </div>
               </div>
@@ -266,7 +315,9 @@ export const DepartmentPerformanceView: React.FC<DepartmentPerformanceViewProps>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                 <div className="p-3 bg-white rounded-lg border border-slate-200">
                   <div className="text-slate-500 font-medium">NHM HMIS Gurugram Observations</div>
-                  <div className="font-mono font-bold text-lg text-slate-900 mt-1">11,010 Facility Records</div>
+                  <div className="font-mono font-bold text-lg text-slate-900 mt-1">
+                    {referenceData?.health?.total_records ? `${referenceData.health.total_records.toLocaleString()} Facility Records` : '11,010 Facility Records'}
+                  </div>
                   <div className="text-slate-500 text-[11px] mt-0.5">14 Fiscal Years (2008-09 to 2021-22)</div>
                 </div>
                 <div className="p-3 bg-white rounded-lg border border-slate-200">
@@ -276,7 +327,9 @@ export const DepartmentPerformanceView: React.FC<DepartmentPerformanceViewProps>
                 </div>
                 <div className="p-3 bg-white rounded-lg border border-slate-200">
                   <div className="text-slate-500 font-medium">Data Provenance & Scope</div>
-                  <div className="font-mono text-slate-700 mt-1">hmis_haryana.zip/output.csv</div>
+                  <div className="font-mono text-slate-700 mt-1">
+                    {referenceData?.health?.source || 'hmis_haryana.zip/output.csv'}
+                  </div>
                   <div className="text-slate-400 text-[11px] mt-0.5">Official MoHFW registry; real-time PHC drug stockout alerts simulated.</div>
                 </div>
               </div>
@@ -286,7 +339,9 @@ export const DepartmentPerformanceView: React.FC<DepartmentPerformanceViewProps>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                 <div className="p-3 bg-white rounded-lg border border-slate-200">
                   <div className="text-slate-500 font-medium">MCG Gurugram Spatial Coverage</div>
-                  <div className="font-mono font-bold text-lg text-slate-900 mt-1">35 Municipal Wards</div>
+                  <div className="font-mono font-bold text-lg text-slate-900 mt-1">
+                    {referenceData?.wards_gis?.ward_count ? `${referenceData.wards_gis.ward_count} Municipal Wards` : '35 Municipal Wards'}
+                  </div>
                   <div className="text-slate-500 text-[11px] mt-0.5">Full municipal polygon boundary features</div>
                 </div>
                 <div className="p-3 bg-white rounded-lg border border-slate-200">
@@ -296,7 +351,9 @@ export const DepartmentPerformanceView: React.FC<DepartmentPerformanceViewProps>
                 </div>
                 <div className="p-3 bg-white rounded-lg border border-slate-200">
                   <div className="text-slate-500 font-medium">Data Provenance & Scope</div>
-                  <div className="font-mono text-slate-700 mt-1">gurugram_wards.kml</div>
+                  <div className="font-mono text-slate-700 mt-1">
+                    {referenceData?.wards_gis?.source || 'gurugram_wards.kml'}
+                  </div>
                   <div className="text-slate-400 text-[11px] mt-0.5">Municipal Corporation GIS boundaries; dispatch queues simulated.</div>
                 </div>
               </div>

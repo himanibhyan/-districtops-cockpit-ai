@@ -11,7 +11,8 @@ import {
   Users,
   CheckCircle2,
   Clock,
-  ArrowRight
+  ArrowRight,
+  Database
 } from 'lucide-react';
 
 interface DepartmentCardProps {
@@ -133,6 +134,22 @@ export const DepartmentCard: React.FC<DepartmentCardProps> = ({ department, onSe
             <div className="font-mono font-bold text-base text-slate-900">
               {department.activeTeams}
             </div>
+          </div>
+        </div>
+        {/* Verified Reference Baseline Badge */}
+        <div className="mb-3 p-2 bg-blue-50/70 rounded-lg border border-blue-200/60 text-[11px]">
+          <div className="flex items-center justify-between text-blue-900 font-medium mb-0.5">
+            <span className="flex items-center gap-1 font-semibold text-[10px] uppercase tracking-wider text-blue-800">
+              <Database className="w-3 h-3 text-blue-600" />
+              Verified Baseline
+            </span>
+            <span className="font-mono text-[9px] text-blue-600 uppercase">OFFICIAL</span>
+          </div>
+          <div className="text-slate-700 font-semibold text-[11px]">
+            {department.name === 'Water Supply' && '100% Verified Tap Water (JJM PDF)'}
+            {department.name === 'Sanitation' && '53,523 Latrines (100% SBM Grameen)'}
+            {department.name === 'Healthcare' && '11,010 HMIS Haryana Health Records'}
+            {department.name !== 'Water Supply' && department.name !== 'Sanitation' && department.name !== 'Healthcare' && '35 MCG Ward Spatial Boundary'}
           </div>
         </div>
       </div>
