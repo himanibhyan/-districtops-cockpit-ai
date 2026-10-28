@@ -274,10 +274,10 @@ export const ResourcePlanningView: React.FC = () => {
       </div>
 
       {/* Actionable Trigger: Launch Surge Intervention */}
-      <div className="bg-slate-900 text-white rounded-lg p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
+      <div className="bg-[#0b1329] text-white rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs border border-slate-800">
         <div>
-          <h4 className="text-xs font-bold font-mono uppercase tracking-wider text-amber-400 flex items-center space-x-1.5">
-            <Sparkles className="w-4 h-4" />
+          <h4 className="text-xs font-bold font-mono uppercase tracking-wider text-blue-400 flex items-center space-x-1.5">
+            <Sparkles className="w-4 h-4 text-blue-400" />
             <span>Operational Decision Recommendation</span>
           </h4>
           <p className="text-xs text-slate-300 mt-0.5">
@@ -286,7 +286,7 @@ export const ResourcePlanningView: React.FC = () => {
         </div>
         <button
           onClick={handleLaunchSurgeIntervention}
-          className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg flex items-center space-x-2 transition cursor-pointer shrink-0"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-4 py-2 rounded-lg flex items-center space-x-2 transition cursor-pointer shrink-0"
         >
           <PlusCircle className="w-4 h-4" />
           <span>Launch Surge Intervention</span>

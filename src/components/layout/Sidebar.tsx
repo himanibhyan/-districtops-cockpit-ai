@@ -12,165 +12,102 @@ import {
   Inbox,
   Calculator
 } from 'lucide-react';
-import { NavTab, useApp } from '../../context/AppContext';
 
-interface NavItem {
-  id: NavTab;
-  label: string;
-  icon: React.ComponentType<{ className?: string }>;
-  description: string;
-  badge?: string;
-  badgeColor?: string;
+export type NavTab =
+  | 'overview'
+  | 'map'
+  | 'departments'
+  | 'alerts'
+  | 'grievances'
+  | 'interventions'
+  | 'planning';
+
+interface SidebarProps {
+  activeTab: NavTab;
+  onSelectTab: (tab: NavTab) => void;
+  criticalAlertCount: number;
+  activeInterventionCount: number;
+  pendingGrievanceCount?: number;
+  onOpenAssistant?: () => void;
 }
 
-export const Sidebar: React.FC = () => {
-  const {
-    activeTab,
-    setActiveTab,
-    alerts,
-    interventions,
-    grievances,
-    setIsAssistantOpen
-  } = useApp();
-
-  const criticalAlertCount = alerts.filter((a) => a.severity === 'Critical').length;
-  const activeInterventionCount = interventions.filter(
-    (i) => i.status !== 'Completed' && i.status !== 'RESOLVED'
-  ).length;
-  const pendingGrievanceCount = grievances.filter((g) => g.status !== 'RESOLVED').length;
-
-  const coreNavItems: NavItem[] = [
+export const Sidebar: React.FC<SidebarProps> = ({
+  activeTab,
+  onSelectTab,
+  criticalAlertCount,
+  activeInterventionCount,
+  pendingGrievanceCount = 0,
+  onOpenAssistant
+}) => {
+  const navItems = [
     {
-      id: 'overview',
+      id: 'overview' as NavTab,
       label: 'District Overview',
       icon: LayoutDashboard,
       description: 'Unified administrative metrics'
     },
     {
-      id: 'map',
-      label: 'GIS Intelligence Map',
+      id: 'map' as NavTab,
+      label: 'District Map',
       icon: MapPin,
       description: 'Gurugram spatial incident radar',
       badge: 'GIS Live',
       badgeColor: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
     },
     {
-      id: 'departments',
+      id: 'departments' as NavTab,
       label: 'Department Performance',
       icon: Building2,
-      description: 'Water, Sanitation, Health, PWD'
-    }
-  ];
-
-  const triageNavItems: NavItem[] = [
+      description: 'Water, Sanitation, Health, Grievances'
+    },
     {
-      id: 'alerts',
+      id: 'alerts' as NavTab,
       label: 'Early Warnings',
       icon: AlertOctagon,
-      description: 'Algorithmic risk radar',
+      description: 'Prioritized risk & anomaly radar',
       badge: criticalAlertCount > 0 ? `${criticalAlertCount} Critical` : undefined,
       badgeColor: 'bg-red-500/20 text-red-400 border border-red-500/30'
     },
     {
-      id: 'grievances',
+      id: 'grievances' as NavTab,
       label: 'Citizen Grievances',
       icon: Inbox,
       description: 'Unified public ticket registry',
       badge: pendingGrievanceCount > 0 ? `${pendingGrievanceCount} Pending` : undefined,
       badgeColor: 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-    }
-  ];
-
-  const actionNavItems: NavItem[] = [
+    },
     {
-      id: 'interventions',
+      id: 'interventions' as NavTab,
       label: 'Intervention Center',
       icon: ClipboardCheck,
-      description: 'Directives & field squad dispatch',
+      description: 'Directives & corrective tracking',
       badge: activeInterventionCount > 0 ? `${activeInterventionCount} Active` : undefined,
       badgeColor: 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
     },
     {
-      id: 'planning',
-      label: 'Resource Simulator',
+      id: 'planning' as NavTab,
+      label: 'Resource Planning',
       icon: Calculator,
-      description: 'Capacity & backlog planning'
+      description: 'Workload & capacity simulator'
     }
   ];
-
-  const renderNavGroup = (title: string, items: NavItem[]) => (
-    <div className="space-y-1 mb-3">
-      <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-500 font-mono">
-        {title}
-      </div>
-      {items.map((item) => {
-        const Icon = item.icon;
-        const isActive = activeTab === item.id;
-
-        return (
-          <button
-            key={item.id}
-            onClick={() => {
-              setActiveTab(item.id);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className={`w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-2.5 transition-colors group relative cursor-pointer ${
-              isActive
-                ? 'bg-blue-600 text-white font-medium shadow-sm shadow-blue-900/50'
-                : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
-            }`}
-          >
-            <Icon
-              className={`w-4 h-4 shrink-0 ${
-                isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'
-              }`}
-            />
-
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between gap-1">
-                <span className="text-xs font-semibold truncate">{item.label}</span>
-                {item.badge && (
-                  <span
-                    className={`text-[9px] px-1.5 py-0.5 rounded font-mono font-bold shrink-0 ${
-                      isActive ? 'bg-white/20 text-white' : item.badgeColor
-                    }`}
-                  >
-                    {item.badge}
-                  </span>
-                )}
-              </div>
-              <div
-                className={`text-[10px] truncate mt-0.5 ${
-                  isActive ? 'text-blue-100' : 'text-slate-500 group-hover:text-slate-400'
-                }`}
-              >
-                {item.description}
-              </div>
-            </div>
-
-            {isActive && <ChevronRight className="w-3.5 h-3.5 text-blue-200 shrink-0" />}
-          </button>
-        );
-      })}
-    </div>
-  );
 
   return (
     <aside className="w-72 bg-[#0b1120] text-slate-300 flex flex-col border-r border-slate-800 shrink-0 select-none">
       {/* Brand & Header */}
-      <div className="p-4 border-b border-slate-800/80">
+      <div className="p-5 border-b border-slate-800/80">
         <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-600/30 ring-1 ring-white/20">
+          <div className="h-10 w-10 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-600/30 ring-1 ring-white/20">
             <Shield className="w-5 h-5 text-white stroke-[2.2]" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-bold text-white text-sm tracking-tight font-mono">DistrictOps</span>
-              <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold tracking-wider bg-blue-500/20 text-blue-400 border border-blue-500/30">
+              <span className="font-bold text-white text-base tracking-tight">DistrictOps</span>
+              <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold tracking-wider bg-blue-500/20 text-blue-400 border border-blue-500/30">
                 COCKPIT AI
               </span>
             </div>
-            <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-1 italic">
+            <p className="text-[11px] text-slate-400 mt-0.5 line-clamp-1 italic">
               From fragmented data to decisive governance.
             </p>
           </div>
@@ -178,58 +115,103 @@ export const Sidebar: React.FC = () => {
       </div>
 
       {/* District Context Badge */}
-      <div className="mx-3 mt-3 px-3 py-2 rounded-lg bg-slate-900/90 border border-slate-800 text-xs">
-        <div className="flex items-center justify-between text-slate-400 text-[10px] mb-0.5 font-mono">
+      <div className="mx-4 mt-4 px-3 py-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-xs">
+        <div className="flex items-center justify-between text-slate-400 text-[11px] mb-1">
           <span className="uppercase font-semibold tracking-wider text-slate-500">Jurisdiction</span>
-          <span className="inline-flex items-center gap-1 text-emerald-400 font-bold">
+          <span className="inline-flex items-center gap-1 text-emerald-400 font-mono text-[10px]">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            GURUGRAM HQ
+            LIVE RADAR
           </span>
         </div>
-        <div className="font-medium text-slate-200 text-xs">Haryana, India</div>
-        <div className="text-[10px] text-slate-400 flex items-center justify-between mt-0.5">
-          <span>DC & GMDA Command</span>
-          <span className="font-mono text-slate-500 text-[9px]">Wards W-01 to W-24</span>
+        <div className="font-medium text-slate-200">Gurugram District, Haryana</div>
+        <div className="text-[11px] text-slate-400 flex items-center justify-between mt-0.5">
+          <span>DC & GMDA Command HQ</span>
+          <span className="font-mono text-slate-500 text-[10px]">MCG Zones 1–4</span>
         </div>
       </div>
 
-      {/* Navigation Groups */}
-      <nav className="flex-1 px-3 py-3 overflow-y-auto space-y-1">
-        {renderNavGroup('Command Radar', coreNavItems)}
-        {renderNavGroup('Intelligence & Triage', triageNavItems)}
-        {renderNavGroup('Action & Simulator', actionNavItems)}
+      {/* Navigation */}
+      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto custom-dark-scroll">
+        <div className="px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+          Core Operations
+        </div>
+
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeTab === item.id;
+
+          return (
+            <button
+              key={item.id}
+              onClick={() => onSelectTab(item.id)}
+              className={`w-full text-left px-3.5 py-3 rounded-lg flex items-center gap-3 transition-colors group relative cursor-pointer ${
+                isActive
+                  ? 'bg-blue-600 text-white font-medium shadow-sm shadow-blue-900/50'
+                  : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
+              }`}
+            >
+              <Icon
+                className={`w-5 h-5 shrink-0 ${
+                  isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'
+                }`}
+              />
+
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-1">
+                  <span className="text-sm truncate">{item.label}</span>
+                  {item.badge && (
+                    <span
+                      className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-medium shrink-0 ${
+                        isActive
+                          ? 'bg-white/20 text-white'
+                          : item.badgeColor
+                      }`}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
+                </div>
+                <div
+                  className={`text-[11px] truncate mt-0.5 ${
+                    isActive ? 'text-blue-100' : 'text-slate-500 group-hover:text-slate-400'
+                  }`}
+                >
+                  {item.description}
+                </div>
+              </div>
+
+              {isActive && (
+                <ChevronRight className="w-4 h-4 text-blue-200 shrink-0" />
+              )}
+            </button>
+          );
+        })}
       </nav>
 
-      {/* AI Decision Assistant Quick Launch Card */}
-      <div className="mx-3 mb-3 p-3 rounded-lg bg-gradient-to-br from-slate-900 to-[#0e1629] border border-amber-500/30 text-xs">
-        <div className="flex items-center justify-between mb-1.5">
-          <div className="flex items-center gap-1.5 text-amber-400 font-bold text-[11px] font-mono">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+      {/* AI Assistant Quick Callout */}
+      <div
+        onClick={onOpenAssistant}
+        className="mx-3 mb-3 p-3 rounded-lg bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 hover:border-blue-500/40 text-xs transition-colors cursor-pointer group"
+      >
+        <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center gap-1.5 text-blue-400 font-medium">
+            <Sparkles className="w-3.5 h-3.5 text-blue-400 group-hover:animate-pulse" />
             <span>AI Decision Assistant</span>
           </div>
-          <span className="text-[9px] bg-amber-500/20 text-amber-300 font-mono px-1 rounded border border-amber-500/30">
-            Grounded
-          </span>
+          <span className="text-[10px] text-blue-400 group-hover:underline">Open &rarr;</span>
         </div>
-        <p className="text-[10px] text-slate-400 leading-relaxed mb-2">
-          Root-cause synthesis & telemetry cross-correlation with cited evidence.
+        <p className="text-[11px] text-slate-400 leading-relaxed">
+          Root-cause triage with transparent uncertainty disclosures on all alert panels.
         </p>
-        <button
-          onClick={() => setIsAssistantOpen(true)}
-          className="w-full bg-amber-600/90 hover:bg-amber-500 text-white text-[11px] font-semibold py-1.5 px-2.5 rounded flex items-center justify-center space-x-1.5 transition cursor-pointer"
-        >
-          <Sparkles className="w-3 h-3" />
-          <span>Launch AI Assistant</span>
-        </button>
       </div>
 
       {/* Footer / System Status */}
-      <div className="p-2.5 border-t border-slate-800 bg-[#070b14] text-[10px] text-slate-500 flex items-center justify-between font-mono">
+      <div className="p-3 border-t border-slate-800 bg-[#070b14] text-[11px] text-slate-500 flex items-center justify-between">
         <div className="flex items-center gap-1.5">
-          <Activity className="w-3 h-3 text-emerald-500" />
-          <span>Telemetry Stream v1.0</span>
+          <Activity className="w-3.5 h-3.5 text-emerald-500" />
+          <span>Telemetry Stream v0.1</span>
         </div>
-        <span className="text-slate-400">GURUGRAM-UNIFIED</span>
+        <span className="font-mono text-[10px] text-slate-500">PROD-DEMO</span>
       </div>
     </aside>
   );

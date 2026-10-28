@@ -120,7 +120,7 @@ export const AIAssistantDrawer: React.FC = () => {
                   setInputQuery(q);
                   handleAsk(q);
                 }}
-                className="text-[11px] bg-white hover:bg-amber-50 text-slate-700 hover:text-amber-800 border border-slate-200 hover:border-amber-300 px-2 py-1 rounded transition text-left"
+                className="text-[11px] bg-white hover:bg-blue-50 text-slate-700 hover:text-blue-800 border border-slate-200 hover:border-blue-300 px-2 py-1 rounded transition text-left cursor-pointer"
               >
                 {q}
               </button>
@@ -132,15 +132,15 @@ export const AIAssistantDrawer: React.FC = () => {
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {isLoading ? (
             <div className="py-12 flex flex-col items-center justify-center space-y-2 text-slate-400">
-              <Sparkles className="w-6 h-6 animate-spin text-amber-500" />
+              <Sparkles className="w-6 h-6 animate-spin text-blue-500" />
               <span className="text-xs font-mono">Synthesizing live Gurugram data...</span>
             </div>
           ) : currentResponse ? (
             <div className="space-y-4">
               {/* Executive Summary Card */}
-              <div className="bg-amber-50/70 border border-amber-200/80 rounded-lg p-3.5 space-y-2">
-                <div className="flex items-center space-x-1.5 text-amber-800 font-bold text-xs font-mono uppercase tracking-wider">
-                  <ShieldCheck className="w-4 h-4 text-amber-600" />
+              <div className="bg-blue-50/70 border border-blue-200/80 rounded-lg p-3.5 space-y-2">
+                <div className="flex items-center space-x-1.5 text-blue-900 font-bold text-xs font-mono uppercase tracking-wider">
+                  <ShieldCheck className="w-4 h-4 text-blue-600" />
                   <span>Strategic Executive Briefing</span>
                 </div>
                 <p className="text-xs text-slate-900 leading-relaxed font-semibold">
@@ -182,7 +182,7 @@ export const AIAssistantDrawer: React.FC = () => {
               {/* Supporting Evidence Box */}
               <div className="bg-[#0b1329] text-white p-3.5 rounded-lg border border-slate-800 space-y-2.5">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 font-mono flex items-center space-x-1.5">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400 font-mono flex items-center space-x-1.5">
                     <Database className="w-3.5 h-3.5" />
                     <span>Supporting Verification Evidence</span>
                   </span>
@@ -194,7 +194,7 @@ export const AIAssistantDrawer: React.FC = () => {
                   {Object.entries(currentResponse.evidence.computedMetrics).map(([k, v]) => (
                     <div key={k} className="bg-slate-900 p-2 rounded border border-slate-800">
                       <span className="text-slate-400 text-[10px] block">{k}:</span>
-                      <span className="font-mono font-bold text-amber-400">{v}</span>
+                      <span className="font-mono font-bold text-blue-300">{v}</span>
                     </div>
                   ))}
                 </div>
@@ -224,7 +224,7 @@ export const AIAssistantDrawer: React.FC = () => {
               {currentResponse.suggestedActionType && (
                 <button
                   onClick={() => handleActionClick(currentResponse)}
-                  className="w-full bg-amber-600 hover:bg-amber-500 text-white font-semibold py-2.5 px-4 rounded-lg shadow-sm flex items-center justify-center space-x-2 transition cursor-pointer"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg shadow-sm flex items-center justify-center space-x-2 transition cursor-pointer"
                 >
                   <PlusCircle className="w-4 h-4" />
                   <span>

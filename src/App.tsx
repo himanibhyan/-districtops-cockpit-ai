@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
-import { Sidebar } from './components/layout/Sidebar';
+import { Sidebar, NavTab } from './components/layout/Sidebar';
 import { TopHeader } from './components/layout/TopHeader';
 import { DemoNoticeBanner } from './components/common/DemoNoticeBanner';
 import { DistrictOverview } from './components/dashboard/DistrictOverview';
@@ -16,6 +16,7 @@ import { InterventionModal } from './components/interventions/InterventionModal'
 import { AIAssistantDrawer } from './components/assistant/AIAssistantDrawer';
 import { InterventionStatus } from './types';
 import { apiService } from './services/api';
+import { Compass } from 'lucide-react';
 
 const DistrictOpsCockpitInner: React.FC = () => {
   const {
@@ -23,11 +24,13 @@ const DistrictOpsCockpitInner: React.FC = () => {
     setActiveTab,
     alerts,
     interventions,
+    grievances,
     dashboardData,
     selectedAlert,
     setSelectedAlert,
     selectedGrievance,
     setSelectedGrievance,
+    setIsAssistantOpen,
     isInterventionModalOpen,
     setIsInterventionModalOpen,
     prefillInterventionAlert,
@@ -35,12 +38,20 @@ const DistrictOpsCockpitInner: React.FC = () => {
     openCreateInterventionForAlert,
     filterDepartment,
     setFilterDepartment,
+    searchQuery,
+    setSearchQuery,
     updateInterventionStatus,
     createIntervention
   } = useApp();
 
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const isDemoMode = apiService.isDemoMode();
+
+  const criticalAlertCount = alerts.filter((a) => a.severity === 'Critical').length;
+  const activeInterventionCount = interventions.filter(
+    (i) => i.status !== 'Completed' && i.status !== 'RESOLVED'
+  ).length;
+  const pendingGrievanceCount = grievances.filter((g) => g.status !== 'RESOLVED').length;
 
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
@@ -52,6 +63,11 @@ const DistrictOpsCockpitInner: React.FC = () => {
       setIsRefreshing(false);
     }
   }, []);
+
+  const handleSelectTab = (tab: NavTab) => {
+    setActiveTab(tab);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleNavigateToAlerts = (department?: string) => {
     if (department) {
@@ -80,6 +96,11 @@ const DistrictOpsCockpitInner: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleOpenGeneralIntervention = () => {
+    setPrefillInterventionAlert(null);
+    setIsInterventionModalOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
       {/* Top Demo Environment Notice Banner */}
@@ -87,12 +108,28 @@ const DistrictOpsCockpitInner: React.FC = () => {
 
       <div className="flex flex-1 min-h-[calc(100vh-37px)]">
         {/* Navy/Charcoal Sidebar */}
-        <Sidebar />
+        <Sidebar
+          activeTab={activeTab}
+          onSelectTab={handleSelectTab}
+          criticalAlertCount={criticalAlertCount}
+          activeInterventionCount={activeInterventionCount}
+          pendingGrievanceCount={pendingGrievanceCount}
+          onOpenAssistant={() => setIsAssistantOpen(true)}
+        />
 
         {/* Main Workspace */}
         <div className="flex-1 flex flex-col min-w-0 bg-[#f8fafc]">
           {/* Top Header */}
-          <TopHeader onRefresh={handleRefresh} isRefreshing={isRefreshing} />
+          <TopHeader
+            activeTab={activeTab}
+            onOpenNewIntervention={handleOpenGeneralIntervention}
+            onOpenAssistant={() => setIsAssistantOpen(true)}
+            onRefresh={handleRefresh}
+            isRefreshing={isRefreshing}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            lastUpdated={dashboardData.lastUpdated}
+          />
 
           {/* View Container */}
           <main className="flex-1 p-6 md:p-8 max-w-7xl w-full mx-auto">
@@ -111,16 +148,19 @@ const DistrictOpsCockpitInner: React.FC = () => {
 
             {activeTab === 'map' && (
               <div className="space-y-4">
-                <div className="bg-white border border-slate-200 rounded-lg p-3.5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
-                    <h2 className="text-sm font-bold font-mono tracking-wide text-slate-900 uppercase">
-                      Gurugram GIS Operations & Telemetry Map
-                    </h2>
-                    <p className="text-xs text-slate-500">
-                      Leaflet spatial radar displaying verified Gurugram boundary polygon (783 vertices) and incident coordinates.
+                    <div className="flex items-center gap-2">
+                      <Compass className="w-4 h-4 text-blue-600" />
+                      <h2 className="text-base font-bold text-slate-900">
+                        Gurugram GIS Operations & Telemetry Map
+                      </h2>
+                    </div>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      Interactive Leaflet GIS command map displaying verified Gurugram boundary polygon (783 vertices) and incident coordinates.
                     </p>
                   </div>
-                  <span className="text-[10px] bg-emerald-50 text-emerald-700 font-mono font-bold px-2.5 py-1 rounded border border-emerald-200 self-start sm:self-auto">
+                  <span className="font-mono text-xs px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200 shrink-0">
                     CANONICAL JURISDICTION: GURUGRAM, HARYANA
                   </span>
                 </div>
@@ -130,7 +170,7 @@ const DistrictOpsCockpitInner: React.FC = () => {
                   selectedAlertId={selectedAlert?.id || null}
                   onSelectAlert={(alert) => setSelectedAlert(alert)}
                   onNavigateToInterventions={handleNavigateToInterventions}
-                  height="calc(100vh - 240px)"
+                  height="calc(100vh - 270px)"
                   isExpandedInitial={true}
                 />
               </div>
@@ -162,10 +202,7 @@ const DistrictOpsCockpitInner: React.FC = () => {
             {activeTab === 'interventions' && (
               <InterventionCenterView
                 interventions={interventions}
-                onOpenCreateModal={() => {
-                  setPrefillInterventionAlert(null);
-                  setIsInterventionModalOpen(true);
-                }}
+                onOpenCreateModal={handleOpenGeneralIntervention}
                 onUpdateStatus={async (id: string, newStatus: InterventionStatus) => {
                   updateInterventionStatus(id, newStatus);
                 }}
