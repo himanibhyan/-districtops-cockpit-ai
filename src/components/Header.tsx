@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Building2, 
   RotateCcw, 
   Sparkles, 
   Calendar, 
-  ChevronDown
+  ChevronDown,
+  Server,
+  CheckCircle2,
+  AlertCircle
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { apiClient, BackendHealth } from '../services/apiClient';
 
 export const Header: React.FC = () => {
   const { 
@@ -16,6 +20,26 @@ export const Header: React.FC = () => {
     setIsAssistantOpen,
     alerts 
   } = useApp();
+
+  const [backendHealth, setBackendHealth] = useState<BackendHealth | null>(null);
+  const [isBackendChecking, setIsBackendChecking] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+    const checkHealth = async () => {
+      const h = await apiClient.getHealth();
+      if (mounted) {
+        setBackendHealth(h);
+        setIsBackendChecking(false);
+      }
+    };
+    checkHealth();
+    const interval = setInterval(checkHealth, 15000);
+    return () => {
+      mounted = false;
+      clearInterval(interval);
+    };
+  }, []);
 
   const criticalAlertsCount = alerts.filter(a => a.severity === 'CRITICAL' || a.severity === 'HIGH').length;
 
@@ -39,7 +63,7 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Center: District Selector & Environment Tag */}
+      {/* Center: District Selector & Backend Live Status */}
       <div className="hidden md:flex items-center space-x-3">
         <div className="relative">
           <select 
@@ -59,9 +83,29 @@ export const Header: React.FC = () => {
           <span className="font-mono text-[11px]">28 Oct 2026, 11:00 IST</span>
         </div>
 
-        <div className="px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-[10px] font-semibold tracking-wide uppercase">
-          Synthetic Sandbox
-        </div>
+        {/* Backend API live indicator */}
+        {backendHealth ? (
+          <div 
+            title={`Connected to FastAPI Backend at http://localhost:8000 (IHHL: ${backendHealth.datasets.sanitation.rows} rows, HMIS: ${backendHealth.datasets.hmis.rows} rows, Water: ${backendHealth.datasets.water_coverage.rows} states/UTs, KML: ${backendHealth.datasets.kml_wards.features} wards)`}
+            className="flex items-center space-x-1.5 px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-400 text-[10px] font-semibold tracking-wide"
+          >
+            <CheckCircle2 className="w-3 h-3 text-emerald-400 animate-pulse" />
+            <span>API CONNECTED (PORT 8000)</span>
+          </div>
+        ) : isBackendChecking ? (
+          <div className="flex items-center space-x-1.5 px-2 py-0.5 rounded bg-slate-800/60 border border-slate-700 text-slate-400 text-[10px] font-semibold">
+            <Server className="w-3 h-3 text-slate-400 animate-spin" />
+            <span>CONNECTING API...</span>
+          </div>
+        ) : (
+          <div 
+            title="Backend offline — utilizing local deterministic sandbox."
+            className="flex items-center space-x-1.5 px-2 py-0.5 rounded bg-amber-950/60 border border-amber-500/30 text-amber-400 text-[10px] font-semibold"
+          >
+            <AlertCircle className="w-3 h-3 text-amber-400" />
+            <span>SYNTHETIC SANDBOX</span>
+          </div>
+        )}
       </div>
 
       {/* Right Controls */}

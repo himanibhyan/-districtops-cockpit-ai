@@ -1,4 +1,4 @@
-"""Official Contract Router: Exposes /api/* endpoints exactly adhering to Version 1.0.0-hackathon."""
+"""Official Contract Router: Exposes /api/* endpoints adhering strictly to API Contract v1.0.0."""
 from datetime import datetime
 from typing import Optional
 from fastapi import APIRouter, HTTPException, Query, status
@@ -23,8 +23,13 @@ from app.models.schemas import (
 from app.services.ai_assistant import explain_alert_evidence
 from app.services.contract_store import (
     ALERTS_STORE,
-    INTERVENTIONS_STORE,
     get_dashboard_data,
+)
+from app.db.database import (
+    db_list_interventions,
+    db_create_intervention,
+    db_update_intervention,
+    db_get_count,
 )
 
 router = APIRouter(tags=["Contract V1.0"])
@@ -111,32 +116,28 @@ def explain_alert(id: str, request: Optional[ExplainRequest] = None):
     return explain_alert_evidence(alert, request)
 
 
-# 5.6 GET /api/interventions
+# 5.6 GET /api/interventions (Persistent SQLite)
 @router.get("/interventions", response_model=InterventionListResponse)
 def list_interventions(
     alert_id: Optional[str] = Query(None),
     status: Optional[InterventionStatus] = Query(None),
 ):
-    results = list(INTERVENTIONS_STORE.values())
-
-    if alert_id:
-        results = [i for i in results if i.alert_id == alert_id]
-    if status:
-        results = [i for i in results if i.status == status]
-
+    status_val = status.value if status else None
+    results = db_list_interventions(alert_id=alert_id, status=status_val)
     return InterventionListResponse(
         is_synthetic=True, total=len(results), interventions=results
     )
 
 
-# 5.7 POST /api/interventions
+# 5.7 POST /api/interventions (Persistent SQLite)
 @router.post(
     "/interventions",
     response_model=InterventionItem,
     status_code=status.HTTP_201_CREATED,
 )
 def create_intervention(payload: InterventionCreate):
-    new_id = f"int-{len(INTERVENTIONS_STORE) + 1:03d}"
+    total = db_get_count()
+    new_id = f"int-{total + 1:03d}"
     now = datetime.utcnow()
 
     item = InterventionItem(
@@ -152,14 +153,14 @@ def create_intervention(payload: InterventionCreate):
         updated_at=now,
         notes=payload.notes,
     )
-    INTERVENTIONS_STORE[new_id] = item
-    return item
+    return db_create_intervention(item)
 
 
-# 5.8 PATCH /api/interventions/{id}
+# 5.8 PATCH /api/interventions/{id} (Persistent SQLite)
 @router.patch("/interventions/{id}", response_model=InterventionItem)
 def update_intervention(id: str, payload: InterventionUpdate):
-    if id not in INTERVENTIONS_STORE:
+    updated = db_update_intervention(id, status=payload.status, notes=payload.notes)
+    if not updated:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail={
@@ -170,13 +171,4 @@ def update_intervention(id: str, payload: InterventionUpdate):
                 }
             },
         )
-
-    item = INTERVENTIONS_STORE[id]
-    if payload.status is not None:
-        item.status = payload.status
-    if payload.notes is not None:
-        item.notes = payload.notes
-    item.updated_at = datetime.utcnow()
-
-    INTERVENTIONS_STORE[id] = item
-    return item
+    return updated

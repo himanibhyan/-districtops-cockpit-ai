@@ -7,13 +7,15 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from app.services.data_loader import DataStore
+from app.db.database import init_db
 
 data_store = DataStore()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Load all datasets on startup."""
+    """Load all datasets and initialize SQLite on startup."""
+    init_db()
     data_store.load_all()
     yield
 
