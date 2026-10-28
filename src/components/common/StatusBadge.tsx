@@ -1,5 +1,5 @@
 import React from 'react';
-import { SeverityLevel, AlertStatus, PriorityLevel, InterventionStatus } from '../../types';
+import { SeverityLevel, AlertStatus, PriorityLevel, InterventionStatus, normalizeInterventionStatus } from '../../types';
 
 export const SeverityBadge: React.FC<{ severity: SeverityLevel; size?: 'sm' | 'md' }> = ({
   severity,
@@ -76,6 +76,8 @@ export const InterventionStatusBadge: React.FC<{ status: InterventionStatus; siz
   status,
   size = 'md'
 }) => {
+  const normStatus = normalizeInterventionStatus(status);
+
   const styles = {
     Assigned: 'bg-amber-50 text-amber-700 border-amber-200',
     'In Progress': 'bg-blue-50 text-blue-700 border-blue-200',
@@ -91,9 +93,9 @@ export const InterventionStatusBadge: React.FC<{ status: InterventionStatus; siz
   const sizeClasses = size === 'sm' ? 'px-2 py-0.5 text-[11px]' : 'px-2.5 py-1 text-xs font-medium';
 
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full border ${styles[status]} ${sizeClasses}`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${dots[status]}`} />
-      {status}
+    <span className={`inline-flex items-center gap-1.5 rounded-full border ${styles[normStatus]} ${sizeClasses}`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${dots[normStatus]}`} />
+      {normStatus}
     </span>
   );
 };

@@ -59,6 +59,25 @@ export const InterventionModal: React.FC<InterventionModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
+  React.useEffect(() => {
+    if (isOpen) {
+      setTitle(prefillAction || (prefillAlert ? `Emergency Response Directive: ${prefillAlert.title}` : ''));
+      setDescription(
+        prefillAlert
+          ? `Deploy specialized field squads to address anomaly in ${prefillAlert.affectedArea}. Root evidence: ${prefillAlert.evidenceSummary}`
+          : ''
+      );
+      setDepartment(prefillAlert?.department || 'Water Supply');
+      setPriority(
+        prefillAlert?.severity === 'Critical' ? 'Urgent' : prefillAlert?.severity === 'High' ? 'High' : 'Medium'
+      );
+      setTargetArea(prefillAlert?.affectedArea || 'Ward 7 (Indirapuram Sector 4)');
+      setAssignedOfficer('Dr. A. Ramanathan (Nodal Officer)');
+      setAssignedTeam(prefillAlert?.assignedTeam || 'Rapid Response Hydraulic Squad 2');
+      setFormError(null);
+    }
+  }, [isOpen, prefillAlert, prefillAction]);
+
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
