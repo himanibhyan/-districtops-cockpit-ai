@@ -19,6 +19,7 @@
 - **React 18** with **TypeScript**
 - **Vite** for sub-second hot reload and production builds
 - **Tailwind CSS** with a custom operational command palette
+- **React Leaflet & Leaflet** for geospatial district intelligence
 - **Recharts** for trend velocity and department SLA compliance analytics
 - **Lucide React** for consistent administrative iconography
 
@@ -26,7 +27,15 @@
 
 ## 🚀 Key Modules
 
-### 1. District Overview (`/`)
+### 1. District Overview (`/`) & Intelligence Map
+- **Gurugram District Intelligence Map**:
+  - Interactive geospatial radar centered on Gurugram district, Haryana.
+  - Official Survey of India / Census district boundary vector GeoJSON from DataMeet.
+  - Distinct interactive incident pins: **Red** (Critical alerts), **Amber** (High-priority alerts), **Blue** (Active directives), **Green** (Completed directives).
+  - Quick-focus presets for **Sector 56**, **Sector 14**, **Sohna**, and **Pataudi**.
+  - Multi-tier map filtering by Department, Severity, Alert Status, and Directive Status, with independent Alerts/Directives display toggles.
+  - Dedicated **Full Investigation Mode** with expandable desktop viewing.
+  - Graceful tile degradation handling (CartoDB Positron & OpenStreetMap support).
 - **4 Real-Time KPI Cards**:
   - Open Public Grievances (1,428 tickets, -4.8% vs last week)
   - High-Priority Alerts (6 anomalies, 2 Critical)
