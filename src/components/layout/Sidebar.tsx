@@ -211,7 +211,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <Activity className="w-3.5 h-3.5 text-emerald-500" />
           <span>Telemetry Stream v0.1</span>
         </div>
-        <span className="font-mono text-[10px] text-slate-500">PROD-DEMO</span>
+        <span className="font-mono text-[10px] text-slate-500">OPS-COCKPIT</span>
       </div>
     </aside>
   );

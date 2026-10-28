@@ -9,7 +9,8 @@ import {
   BarChart3,
   ExternalLink,
   ShieldAlert,
-  Compass
+  Compass,
+  Database
 } from 'lucide-react';
 import { DashboardSummary, OperationalAlert } from '../../types';
 import { MetricKpiCard } from './MetricKpiCard';
@@ -56,28 +57,6 @@ export const DistrictOverview: React.FC<DistrictOverviewProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Prominent Demo Notice Box as requested */}
-      <div className="rounded-xl bg-amber-500/10 border-2 border-dashed border-amber-500/30 p-4 text-amber-900 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
-        <div className="flex items-start sm:items-center gap-3">
-          <div className="p-2 bg-amber-100 text-amber-800 rounded-lg shrink-0">
-            <AlertTriangle className="w-5 h-5 text-amber-700" />
-          </div>
-          <div>
-            <div className="font-bold text-sm tracking-tight flex items-center gap-2">
-              <span>DEMO ENVIRONMENT — Reference datasets are loaded; operational alerts, grievances and intervention scenarios may be simulated.</span>
-            </div>
-            <p className="text-xs text-amber-800/90 mt-0.5">
-              Verified baseline datasets loaded (HMIS Haryana health registry, Jal Jeevan Mission water report, SBM sanitation, and 35 MCG Gurugram ward boundaries); real-time operational incident streams and rapid dispatch interventions are simulated for district command demonstration.
-            </p>
-          </div>
-        </div>
-        <div className="shrink-0 flex items-center gap-2 text-xs">
-          <span className="font-mono bg-white/80 px-2.5 py-1 rounded border border-amber-300 text-amber-900 font-semibold">
-            HYBRID DEMO
-          </span>
-        </div>
-      </div>
-
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <MetricKpiCard
@@ -230,7 +209,7 @@ export const DistrictOverview: React.FC<DistrictOverviewProps> = ({
                 <h3 className="font-bold text-slate-900 text-sm">Grievance Intake vs Resolution Velocity</h3>
               </div>
               <p className="text-xs text-slate-500 mt-0.5">
-                Daily incoming public complaints vs cases resolved across all 24 wards (Synthetic Demo Series)
+                Daily incoming public complaints vs cases resolved across all 24 wards (Operational Scenario Dynamics)
               </p>
             </div>
             <div className="flex items-center gap-3 text-xs font-medium text-slate-600">
@@ -370,6 +349,19 @@ export const DistrictOverview: React.FC<DistrictOverviewProps> = ({
               onSelect={(deptName) => onNavigateToDepartments(deptName)}
             />
           ))}
+        </div>
+      </div>
+
+      {/* Data Sources & Coverage Strip */}
+      <div className="p-3.5 bg-slate-100/70 rounded-xl border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-500">
+        <div className="flex items-center gap-2">
+          <Database className="w-4 h-4 text-slate-400 shrink-0" />
+          <span>
+            <strong className="text-slate-700">Data Sources & Coverage:</strong> Official reference datasets integrated for Haryana Health (HMIS), Water Supply (JJM FHTC), Sanitation (SBM), and 35 MCG Ward boundaries.
+          </span>
+        </div>
+        <div className="font-mono text-[11px] text-slate-400 shrink-0">
+          Source: Simulated Operational Scenario
         </div>
       </div>
     </div>

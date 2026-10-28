@@ -121,8 +121,8 @@ export const AlertDetailModal: React.FC<AlertDetailModalProps> = ({
                 <FileSpreadsheet className="w-4 h-4 text-slate-600" />
                 Quantitative Metric Evidence & Baseline Delta
               </h3>
-              <span className="font-mono text-[10px] font-semibold text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
-                Synthetic Demonstration Data
+              <span className="font-mono text-[10px] font-medium text-slate-600 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded">
+                Source: Operational Anomaly Model
               </span>
             </div>
 

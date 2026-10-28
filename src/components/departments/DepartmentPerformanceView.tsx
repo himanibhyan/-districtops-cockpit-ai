@@ -369,7 +369,7 @@ export const DepartmentPerformanceView: React.FC<DepartmentPerformanceViewProps>
                 Ward-Wise Grievance Load vs Deployment Ratio ({currentDept.name})
               </h3>
               <p className="text-xs text-slate-500">
-                Synthetic distribution showing resource bottlenecks in high-density sectors
+                Distribution model showing resource allocation vs ticket velocity across sectors
               </p>
             </div>
           </div>

@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Sidebar, NavTab } from './components/layout/Sidebar';
 import { TopHeader } from './components/layout/TopHeader';
-import { DemoNoticeBanner } from './components/common/DemoNoticeBanner';
 import { DistrictOverview } from './components/dashboard/DistrictOverview';
 import { DepartmentPerformanceView } from './components/departments/DepartmentPerformanceView';
 import { AlertsView } from './components/alerts/AlertsView';
@@ -45,7 +44,6 @@ const DistrictOpsCockpitInner: React.FC = () => {
   } = useApp();
 
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  const isDemoMode = apiService.isDemoMode();
 
   const criticalAlertCount = alerts.filter((a) => a.severity === 'Critical').length;
   const activeInterventionCount = interventions.filter(
@@ -103,10 +101,7 @@ const DistrictOpsCockpitInner: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
-      {/* Top Demo Environment Notice Banner */}
-      <DemoNoticeBanner isDemo={isDemoMode} />
-
-      <div className="flex flex-1 min-h-[calc(100vh-37px)]">
+      <div className="flex flex-1 min-h-screen">
         {/* Navy/Charcoal Sidebar */}
         <Sidebar
           activeTab={activeTab}

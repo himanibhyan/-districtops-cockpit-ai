@@ -89,9 +89,9 @@ export const AlertsView: React.FC<AlertsViewProps> = ({
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="font-mono text-xs px-2.5 py-1 rounded bg-amber-50 text-amber-800 border border-amber-200 font-semibold flex items-center gap-1.5">
-            <Database className="w-3.5 h-3.5 text-amber-700" />
-            Synthetic Demonstration Feed
+          <span className="font-mono text-xs px-2.5 py-1 rounded bg-slate-100 text-slate-600 border border-slate-200 font-medium flex items-center gap-1.5">
+            <Database className="w-3.5 h-3.5 text-slate-500" />
+            Source: Simulated Operational Scenario
           </span>
         </div>
       </div>

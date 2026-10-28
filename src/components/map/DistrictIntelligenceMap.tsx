@@ -532,7 +532,7 @@ export const DistrictIntelligenceMap: React.FC<DistrictIntelligenceMapProps> = (
         )}
       </div>
 
-      {/* Footer Status Bar with Synthetic Data Disclosure */}
+      {/* Footer Status Bar with Geospatial & Scenario Attribution */}
       <div className="bg-slate-50 border-t border-slate-200 px-4 py-2 flex flex-wrap items-center justify-between text-[11px] text-slate-500 shrink-0">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
@@ -541,7 +541,7 @@ export const DistrictIntelligenceMap: React.FC<DistrictIntelligenceMapProps> = (
           </span>
         </div>
         <div className="font-mono text-slate-400">
-          DEMO ENVIRONMENT: 35 MCG Ward boundaries loaded; operational telemetry and incident markers are simulated fixtures.
+          GIS Layer: 35 MCG Ward Boundaries (KML) • Incident Markers: Operational Scenario
         </div>
       </div>
     </div>
