@@ -8,6 +8,11 @@ export type InterventionStatus = 'Assigned' | 'In Progress' | 'Completed';
 
 export type PriorityLevel = 'Urgent' | 'High' | 'Medium' | 'Low';
 
+export interface GeoCoordinate {
+  lat: number;
+  lng: number;
+}
+
 export interface AlertMetricEvidence {
   label: string;
   previousValue: string | number;
@@ -32,6 +37,7 @@ export interface OperationalAlert {
   metrics: AlertMetricEvidence[];
   recommendedActions: string[];
   assignedTeam?: string;
+  coordinates?: GeoCoordinate;
 }
 
 export interface AiExplainResponse {
@@ -67,6 +73,7 @@ export interface Intervention {
   linkedAlertId?: string;
   linkedAlertTitle?: string;
   progressPercentage: number;
+  coordinates?: GeoCoordinate;
 }
 
 export interface DepartmentMetricSummary {

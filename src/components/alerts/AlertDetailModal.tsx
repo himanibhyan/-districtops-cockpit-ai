@@ -18,12 +18,14 @@ interface AlertDetailModalProps {
   alert: OperationalAlert | null;
   onClose: () => void;
   onCreateInterventionFromAlert: (alert: OperationalAlert, initialAction?: string) => void;
+  onViewOnMap?: (alert: OperationalAlert) => void;
 }
 
 export const AlertDetailModal: React.FC<AlertDetailModalProps> = ({
   alert,
   onClose,
-  onCreateInterventionFromAlert
+  onCreateInterventionFromAlert,
+  onViewOnMap
 }) => {
   if (!alert) return null;
 
@@ -71,6 +73,24 @@ export const AlertDetailModal: React.FC<AlertDetailModalProps> = ({
                 <Clock className="w-3.5 h-3.5 text-slate-400" />
                 <span>Detected {alert.timestamp}</span>
               </div>
+              {alert.coordinates && (
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-[11px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                    {alert.coordinates.lat.toFixed(4)}° N, {alert.coordinates.lng.toFixed(4)}° E
+                  </span>
+                  {onViewOnMap && (
+                    <button
+                      onClick={() => {
+                        onClose();
+                        onViewOnMap(alert);
+                      }}
+                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-600 hover:text-blue-800 underline"
+                    >
+                      Focus on District Map →
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="flex items-center gap-2">

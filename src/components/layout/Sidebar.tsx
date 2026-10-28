@@ -87,10 +87,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
             LIVE RADAR
           </span>
         </div>
-        <div className="font-medium text-slate-200">Dharani South District</div>
+        <div className="font-medium text-slate-200">Gurugram District, Haryana</div>
         <div className="text-[11px] text-slate-400 flex items-center justify-between mt-0.5">
-          <span>Collectorate Command HQ</span>
-          <span className="font-mono text-slate-500 text-[10px]">Ward 1–24</span>
+          <span>DC & GMDA Command HQ</span>
+          <span className="font-mono text-slate-500 text-[10px]">MCG Zones 1–4</span>
         </div>
       </div>
 

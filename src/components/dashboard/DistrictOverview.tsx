@@ -8,12 +8,15 @@ import {
   TrendingUp,
   BarChart3,
   ExternalLink,
-  ShieldAlert
+  ShieldAlert,
+  Compass
 } from 'lucide-react';
 import { DashboardSummary, OperationalAlert } from '../../types';
 import { MetricKpiCard } from './MetricKpiCard';
 import { DepartmentCard } from './DepartmentCard';
 import { SeverityBadge } from '../common/StatusBadge';
+import { DistrictIntelligenceMap } from '../map/DistrictIntelligenceMap';
+import { Intervention } from '../../types';
 import {
   AreaChart,
   Area,
@@ -29,6 +32,8 @@ import {
 interface DistrictOverviewProps {
   data: DashboardSummary;
   alerts: OperationalAlert[];
+  interventions: Intervention[];
+  selectedAlertId?: string | null;
   onNavigateToAlerts: (department?: string) => void;
   onNavigateToInterventions: () => void;
   onNavigateToDepartments: (department?: string) => void;
@@ -38,6 +43,8 @@ interface DistrictOverviewProps {
 export const DistrictOverview: React.FC<DistrictOverviewProps> = ({
   data,
   alerts,
+  interventions,
+  selectedAlertId,
   onNavigateToAlerts,
   onNavigateToInterventions,
   onNavigateToDepartments,
@@ -60,7 +67,7 @@ export const DistrictOverview: React.FC<DistrictOverviewProps> = ({
               <span>DEMO ENVIRONMENT — All displayed operational data is synthetic.</span>
             </div>
             <p className="text-xs text-amber-800/90 mt-0.5">
-              Simulating district-level grievance telemetric intake, automated anomaly detection, and rapid administrative intervention assignment for Dharani South.
+              Simulating district-level grievance telemetric intake, automated anomaly detection, and rapid administrative intervention assignment for Gurugram district, Haryana.
             </p>
           </div>
         </div>
@@ -178,6 +185,39 @@ export const DistrictOverview: React.FC<DistrictOverviewProps> = ({
           </div>
         </div>
       )}
+
+      {/* District Operations Intelligence Map Section */}
+      <div id="district-intelligence-map" className="space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="p-1 rounded-md bg-blue-100 text-blue-700">
+                <Compass className="w-4 h-4" />
+              </span>
+              <h2 className="text-base font-bold text-slate-900">
+                District Spatial Intelligence & Incident Radar
+              </h2>
+            </div>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Live geographic operational picture for Gurugram (MCG & GMDA jurisdiction) with Survey of India boundary vectors
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
+              Interactive Geospatial Layer
+            </span>
+          </div>
+        </div>
+
+        <DistrictIntelligenceMap
+          alerts={alerts}
+          interventions={interventions}
+          selectedAlertId={selectedAlertId}
+          onSelectAlert={onSelectAlert}
+          onNavigateToInterventions={onNavigateToInterventions}
+          height="520px"
+        />
+      </div>
 
       {/* Analytics & Operational Trends Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

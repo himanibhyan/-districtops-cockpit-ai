@@ -18,13 +18,15 @@ interface AlertsViewProps {
   initialDepartmentFilter?: string;
   onSelectAlert: (alert: OperationalAlert) => void;
   onCreateInterventionFromAlert: (alert: OperationalAlert) => void;
+  onViewOnMap?: (alert: OperationalAlert) => void;
 }
 
 export const AlertsView: React.FC<AlertsViewProps> = ({
   alerts,
   initialDepartmentFilter = 'All',
   onSelectAlert,
-  onCreateInterventionFromAlert
+  onCreateInterventionFromAlert,
+  onViewOnMap
 }) => {
   const [departmentFilter, setDepartmentFilter] = useState<string>(initialDepartmentFilter);
   const [severityFilter, setSeverityFilter] = useState<string>('All');
@@ -205,6 +207,20 @@ export const AlertsView: React.FC<AlertsViewProps> = ({
 
                   {/* Action buttons */}
                   <div className="flex items-center gap-2">
+                    {onViewOnMap && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onViewOnMap(alert);
+                        }}
+                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium border border-slate-200 transition-colors"
+                        title="Locate on Gurugram map"
+                      >
+                        <MapPin className="w-3.5 h-3.5 text-blue-600" />
+                        <span className="hidden sm:inline">Map</span>
+                      </button>
+                    )}
+
                     <button
                       onClick={(e) => {
                         e.stopPropagation();

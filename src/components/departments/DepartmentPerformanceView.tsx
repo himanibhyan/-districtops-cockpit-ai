@@ -135,7 +135,7 @@ export const DepartmentPerformanceView: React.FC<DepartmentPerformanceViewProps>
             <p className="text-xs text-slate-500 mt-1 flex items-center gap-2">
               <span>Nodal Lead: <strong className="text-slate-700">{currentDept.leadOfficer}</strong></span>
               <span className="text-slate-300">•</span>
-              <span className="font-mono text-slate-600">Dharani South Municipal Command</span>
+              <span className="font-mono text-slate-600">Gurugram Municipal Command (MCG / GMDA)</span>
             </p>
           </div>
 

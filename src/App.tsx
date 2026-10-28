@@ -94,6 +94,17 @@ export const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleViewOnMap = (alert: OperationalAlert) => {
+    setSelectedAlert(alert);
+    setActiveTab('overview');
+    setTimeout(() => {
+      const mapEl = document.getElementById('district-intelligence-map');
+      if (mapEl) {
+        mapEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 150);
+  };
+
   // Launch Intervention from Alert
   const handleCreateInterventionFromAlert = (alert: OperationalAlert, initialAction?: string) => {
     setInterventionPrefillAlert(alert);
@@ -176,7 +187,7 @@ export const App: React.FC = () => {
                   Initializing District Telemetry Feeds...
                 </p>
                 <p className="text-xs text-slate-400 mt-1">
-                  Loading Dharani South municipal operational indices
+                  Loading Gurugram municipal operational indices
                 </p>
               </div>
             ) : (
@@ -185,6 +196,8 @@ export const App: React.FC = () => {
                   <DistrictOverview
                     data={dashboardData}
                     alerts={alerts}
+                    interventions={interventions}
+                    selectedAlertId={selectedAlert?.id || null}
                     onNavigateToAlerts={handleNavigateToAlerts}
                     onNavigateToInterventions={handleNavigateToInterventions}
                     onNavigateToDepartments={handleNavigateToDepartments}
@@ -211,6 +224,7 @@ export const App: React.FC = () => {
                     onCreateInterventionFromAlert={(alert) =>
                       handleCreateInterventionFromAlert(alert)
                     }
+                    onViewOnMap={handleViewOnMap}
                   />
                 )}
 
@@ -233,6 +247,7 @@ export const App: React.FC = () => {
           alert={selectedAlert}
           onClose={() => setSelectedAlert(null)}
           onCreateInterventionFromAlert={handleCreateInterventionFromAlert}
+          onViewOnMap={handleViewOnMap}
         />
       )}
 

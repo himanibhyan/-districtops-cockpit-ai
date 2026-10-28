@@ -1,3 +1,4 @@
+@import 'leaflet/dist/leaflet.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -42,4 +43,39 @@
 
 .custom-dark-scroll::-webkit-scrollbar-thumb:hover {
   background: #475569;
+}
+
+/* Leaflet map enhancements for Command Center UI */
+.leaflet-container {
+  font-family: inherit;
+  background-color: #f1f5f9;
+}
+
+.leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.2), 0 8px 10px -6px rgba(15, 23, 42, 0.1);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  line-height: inherit;
+  font-family: inherit;
+}
+
+.leaflet-popup-tip {
+  background: white;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  top: 8px;
+  right: 8px;
+  color: #94a3b8;
+  padding: 4px;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+  color: #0f172a;
 }

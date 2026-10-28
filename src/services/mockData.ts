@@ -6,8 +6,8 @@ import {
 } from '../types';
 
 export const INITIAL_DASHBOARD_DATA: DashboardSummary = {
-  districtName: 'Dharani South Administrative District',
-  state: 'State Operations HQ',
+  districtName: 'Gurugram Administrative District',
+  state: 'Haryana, India',
   lastUpdated: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
   kpis: {
     openGrievances: {
@@ -35,7 +35,7 @@ export const INITIAL_DASHBOARD_DATA: DashboardSummary = {
     {
       name: 'Water Supply',
       code: 'WTR',
-      leadOfficer: 'Dr. A. Ramanathan (Chief Engineer)',
+      leadOfficer: 'Dr. A. Ramanathan (Chief Engineer - GMDA)',
       openGrievances: 312,
       resolvedToday: 48,
       complianceRate: 74.2,
@@ -47,7 +47,7 @@ export const INITIAL_DASHBOARD_DATA: DashboardSummary = {
     {
       name: 'Sanitation',
       code: 'SNT',
-      leadOfficer: 'Smt. Kavitha Meena (Municipal Commissioner)',
+      leadOfficer: 'Smt. Kavitha Meena (Municipal Commissioner - MCG)',
       openGrievances: 445,
       resolvedToday: 112,
       complianceRate: 83.5,
@@ -59,7 +59,7 @@ export const INITIAL_DASHBOARD_DATA: DashboardSummary = {
     {
       name: 'Healthcare',
       code: 'HLT',
-      leadOfficer: 'Dr. Sanjay Deshmukh (Chief Medical Officer)',
+      leadOfficer: 'Dr. Sanjay Deshmukh (Chief Medical Officer - Gurugram)',
       openGrievances: 189,
       resolvedToday: 35,
       complianceRate: 88.0,
@@ -71,7 +71,7 @@ export const INITIAL_DASHBOARD_DATA: DashboardSummary = {
     {
       name: 'Public Grievances',
       code: 'PGR',
-      leadOfficer: 'Shri R. K. Verma (District Magistrate Secretariat)',
+      leadOfficer: 'Shri R. K. Verma (Deputy Commissioner Secretariat)',
       openGrievances: 482,
       resolvedToday: 120,
       complianceRate: 79.1,
@@ -104,7 +104,7 @@ export const INITIAL_ALERTS: OperationalAlert[] = [
     id: 'ALT-WTR-2026-089',
     title: 'Drinking Water Pipeline Contamination & Rapid Pressure Drop',
     department: 'Water Supply',
-    affectedArea: 'Ward 7 — Subhash Nagar & Indirapuram Sector 4',
+    affectedArea: 'Sector 4 & Subhash Nagar (Ward 7, Old Gurugram)',
     wardNumber: 7,
     severity: 'Critical',
     riskScore: 94,
@@ -112,6 +112,7 @@ export const INITIAL_ALERTS: OperationalAlert[] = [
     evidenceSummary: 'Anomalous surge in water discoloration complaints (+38%) coupled with sudden drop in line pressure and shortage of active field maintenance teams.',
     timestamp: '18 mins ago',
     isSyntheticDemo: true,
+    coordinates: { lat: 28.4735, lng: 77.0152 },
     metrics: [
       {
         label: 'Citizen Complaints',
@@ -158,7 +159,7 @@ export const INITIAL_ALERTS: OperationalAlert[] = [
     id: 'ALT-HLT-2026-042',
     title: 'Primary Health Centre Cold-Chain Vaccine Temperature Excursion',
     department: 'Healthcare',
-    affectedArea: 'Ward 3 — Rural Dispensary Belt & Sector 9 Sub-Center',
+    affectedArea: 'Farrukhnagar & Sector 9 Dispensary (Ward 3)',
     wardNumber: 3,
     severity: 'Critical',
     riskScore: 89,
@@ -166,6 +167,7 @@ export const INITIAL_ALERTS: OperationalAlert[] = [
     evidenceSummary: 'Secondary refrigeration unit logged 11.4°C (permitted range 2°C–8°C) for over 135 minutes following local transformer failure.',
     timestamp: '42 mins ago',
     isSyntheticDemo: true,
+    coordinates: { lat: 28.4682, lng: 76.9920 },
     metrics: [
       {
         label: 'Cold Storage Ambient Temp',
@@ -203,7 +205,7 @@ export const INITIAL_ALERTS: OperationalAlert[] = [
     id: 'ALT-SNT-2026-114',
     title: 'Solid Waste Aggregation & Transfer Station Choke',
     department: 'Sanitation',
-    affectedArea: 'Ward 12 — Central Wholesale Market & Transit Depot',
+    affectedArea: 'Khandsa Wholesale Mandi & Sector 12 Depot',
     wardNumber: 12,
     severity: 'High',
     riskScore: 78,
@@ -211,6 +213,7 @@ export const INITIAL_ALERTS: OperationalAlert[] = [
     evidenceSummary: 'Compactor vehicle availability fell by 30% due to depot maintenance, resulting in 42 metric tons of unlifted biodegradable market refuse.',
     timestamp: '1 hour ago',
     isSyntheticDemo: true,
+    coordinates: { lat: 28.4410, lng: 77.0115 },
     metrics: [
       {
         label: 'Uncleared Solid Waste',
@@ -248,7 +251,7 @@ export const INITIAL_ALERTS: OperationalAlert[] = [
     id: 'ALT-PGR-2026-205',
     title: 'Street Lighting & Night Safety Citizen Grievance Cluster',
     department: 'Public Grievances',
-    affectedArea: 'Ward 19 — Outer Ring Road Corridor & Transit Hub',
+    affectedArea: 'Sector 56 & Golf Course Extension Corridor (Ward 19)',
     wardNumber: 19,
     severity: 'Medium',
     riskScore: 65,
@@ -256,6 +259,7 @@ export const INITIAL_ALERTS: OperationalAlert[] = [
     evidenceSummary: 'Unresolved lighting tickets exceeded 72-hour statutory SLA across a 3.4 km stretch following monsoon storm circuit breaker tripping.',
     timestamp: '3 hours ago',
     isSyntheticDemo: true,
+    coordinates: { lat: 28.4232, lng: 77.1065 },
     metrics: [
       {
         label: 'Dark Corridor Dark Spots',
@@ -284,7 +288,7 @@ export const INITIAL_ALERTS: OperationalAlert[] = [
     id: 'ALT-HLT-2026-078',
     title: 'Emergency Triage Congestion & Bed Occupancy Saturation',
     department: 'Healthcare',
-    affectedArea: 'District Civil Hospital — Trauma & Emergency Block',
+    affectedArea: 'District Civil Hospital Complex, Sector 10A',
     wardNumber: 1,
     severity: 'High',
     riskScore: 82,
@@ -292,6 +296,7 @@ export const INITIAL_ALERTS: OperationalAlert[] = [
     evidenceSummary: 'Emergency department bed occupancy hit 104% due to seasonal respiratory and viral admissions, extending average wait times to 110 minutes.',
     timestamp: '5 hours ago',
     isSyntheticDemo: true,
+    coordinates: { lat: 28.4560, lng: 77.0010 },
     metrics: [
       {
         label: 'Triage Bed Occupancy',
@@ -316,73 +321,181 @@ export const INITIAL_ALERTS: OperationalAlert[] = [
       'Coordinate patient diversion protocol with Sub-Divisional Hospital East.'
     ],
     assignedTeam: 'Hospital Emergency Incident Officer'
+  },
+  {
+    id: 'ALT-WTR-2026-102',
+    title: 'Deep Tubewell Borewell Motor Failure & Acute Supply Depletion',
+    department: 'Water Supply',
+    affectedArea: 'Sohna Sub-Division (Rural Peripheral Belt)',
+    severity: 'High',
+    riskScore: 77,
+    status: 'Investigating',
+    evidenceSummary: 'High-capacity municipal tubewell pump burnt out, reducing water delivery by 65% for 4 surrounding agricultural villages.',
+    timestamp: '6 hours ago',
+    isSyntheticDemo: true,
+    coordinates: { lat: 28.2477, lng: 77.0620 },
+    metrics: [
+      {
+        label: 'Feeder Supply Deficit',
+        previousValue: '1.8 MLD',
+        currentValue: '0.6 MLD',
+        unit: 'million litres',
+        delta: '-66.7% drop',
+        isNegative: true
+      },
+      {
+        label: 'Affected Habitations',
+        previousValue: 0,
+        currentValue: 4,
+        unit: 'villages',
+        delta: 'Acute shortage',
+        isNegative: true
+      }
+    ],
+    recommendedActions: [
+      'Deploy 3 auxiliary mobile pump sets to bypass defective borewell.',
+      'Issue emergency municipal tanker supply routing to Sohna bus stand chowk.'
+    ],
+    assignedTeam: 'Sohna Rural Hydraulic Division'
+  },
+  {
+    id: 'ALT-RDS-2026-055',
+    title: 'Arterial Road Surface Subsidence & Stormwater Choke',
+    department: 'Roads & Infrastructure',
+    affectedArea: 'Pataudi Sub-Divisional Corridor (State Highway 26)',
+    severity: 'Medium',
+    riskScore: 68,
+    status: 'Monitoring',
+    evidenceSummary: 'Heavy vehicle freight movement caused a 12-meter road trench subsidence near Pataudi grain mandi, disrupting transit.',
+    timestamp: '7 hours ago',
+    isSyntheticDemo: true,
+    coordinates: { lat: 28.3228, lng: 76.7798 },
+    metrics: [
+      {
+        label: 'Trafficked Lane Closure',
+        previousValue: '0 lanes',
+        currentValue: '1 lane',
+        unit: 'lane',
+        delta: 'Bottleneck risk',
+        isNegative: true
+      },
+      {
+        label: 'Average Transit Delay',
+        previousValue: '12 mins',
+        currentValue: '48 mins',
+        unit: 'minutes',
+        delta: '+300%',
+        isNegative: true
+      }
+    ],
+    recommendedActions: [
+      'Erect reflective police safety barricades and diversion signboards.',
+      'Deploy PWD quick-curing asphalt cold-mix repair squad within 6 hours.'
+    ],
+    assignedTeam: 'Pataudi PWD Highway Wing'
   }
 ];
 
 export const INITIAL_INTERVENTIONS: Intervention[] = [
   {
     id: 'INT-2026-001',
-    title: 'Deploy Emergency Water Tanker Fleet to Ward 7 High-Density Choke Points',
-    description: 'Mobilize 6 GPS-tracked civic water tankers (10,000L capacity) to Indirapuram Sector 4 and Subhash Nagar community wells while main supply line undergoes acoustic pressure testing.',
+    title: 'Deploy Emergency Water Tanker Fleet to Sector 4 & Subhash Nagar',
+    description: 'Mobilize 6 GPS-tracked civic water tankers (10,000L capacity) to Sector 4 and Subhash Nagar community points while main supply line undergoes acoustic pressure testing.',
     department: 'Water Supply',
     priority: 'Urgent',
     status: 'In Progress',
-    targetArea: 'Ward 7 (Subhash Nagar)',
-    assignedOfficer: 'Er. Rajesh Nair (Superintending Engineer)',
+    targetArea: 'Sector 4 / Subhash Nagar (Old Gurugram)',
+    assignedOfficer: 'Er. Rajesh Nair (Superintending Engineer - GMDA)',
     assignedTeam: 'Civil Water Logistics Taskforce',
     createdAt: '2026-10-28 08:30 AM',
     updatedAt: '2026-10-28 09:45 AM',
     linkedAlertId: 'ALT-WTR-2026-089',
     linkedAlertTitle: 'Drinking Water Pipeline Contamination & Rapid Pressure Drop',
-    progressPercentage: 65
+    progressPercentage: 65,
+    coordinates: { lat: 28.4745, lng: 77.0165 }
   },
   {
     id: 'INT-2026-002',
-    title: 'Relocate Ward 3 Vaccine Stock & Install Standby Diesel Generator',
-    description: 'Relocate temperature-sensitive immunization batches under continuous cold-box monitoring to District Base Hospital cold vault; deploy 25kVA generator to PHC Ward 3.',
+    title: 'Relocate Farrukhnagar Vaccine Stock & Install Standby Diesel Generator',
+    description: 'Relocate temperature-sensitive immunization batches under continuous cold-box monitoring to District Base Hospital cold vault; deploy 25kVA generator to PHC.',
     department: 'Healthcare',
     priority: 'Urgent',
     status: 'Assigned',
-    targetArea: 'Ward 3 (Rural PHC Sub-Center)',
+    targetArea: 'Farrukhnagar & Sector 9 Dispensary',
     assignedOfficer: 'Dr. Suniti Rao (Cold Chain Officer)',
     assignedTeam: 'Rapid Cold Chain Emergency Unit',
     createdAt: '2026-10-28 09:15 AM',
     updatedAt: '2026-10-28 09:30 AM',
     linkedAlertId: 'ALT-HLT-2026-042',
     linkedAlertTitle: 'Primary Health Centre Cold-Chain Vaccine Temperature Excursion',
-    progressPercentage: 25
+    progressPercentage: 25,
+    coordinates: { lat: 28.4695, lng: 76.9930 }
   },
   {
     id: 'INT-2026-003',
-    title: 'Night Clearance & Hook-Loader Mobilization at Wholesale Market Depot',
-    description: 'Contract 4 secondary haulage hook-loaders to clear 42 metric tons of accumulation in Ward 12 wholesale market zone prior to morning trading hours.',
+    title: 'Night Clearance & Hook-Loader Mobilization at Khandsa Mandi Depot',
+    description: 'Contract 4 secondary haulage hook-loaders to clear 42 metric tons of accumulation in Khandsa wholesale market zone prior to morning trading hours.',
     department: 'Sanitation',
     priority: 'High',
     status: 'In Progress',
-    targetArea: 'Ward 12 (Central Wholesale Market)',
-    assignedOfficer: 'Shri Manoj Patil (Chief Sanitary Inspector)',
+    targetArea: 'Khandsa Wholesale Mandi (Sector 12)',
+    assignedOfficer: 'Shri Manoj Patil (Chief Sanitary Inspector - MCG)',
     assignedTeam: 'Depot Fleet Operations',
     createdAt: '2026-10-27 19:00 PM',
     updatedAt: '2026-10-28 07:15 AM',
     linkedAlertId: 'ALT-SNT-2026-114',
     linkedAlertTitle: 'Solid Waste Aggregation & Transfer Station Choke',
-    progressPercentage: 80
+    progressPercentage: 80,
+    coordinates: { lat: 28.4420, lng: 77.0125 }
   },
   {
     id: 'INT-2026-004',
-    title: 'Outer Ring Road Streetlight Concessionaire SLA Enforcement & Audit',
-    description: 'Issue formal 48-hour cure notice to concessionaire; conduct joint nodal inspection of 64 non-operational poles along the 3.4 km outer ring corridor.',
+    title: 'Sector 56 Golf Course Extn Streetlight Concessionaire SLA Enforcement',
+    description: 'Issue formal 48-hour cure notice to concessionaire; conduct joint nodal inspection of 64 non-operational poles along the Sector 56 corridor.',
     department: 'Public Grievances',
     priority: 'Medium',
     status: 'Completed',
-    targetArea: 'Ward 19 (Outer Ring Road Corridor)',
+    targetArea: 'Sector 56 & Golf Course Extn Corridor',
     assignedOfficer: 'Ms. Priyadarshini K. (Nodal Officer - Infrastructure)',
     assignedTeam: 'District SLA Compliance Cell',
     createdAt: '2026-10-26 11:00 AM',
     updatedAt: '2026-10-27 18:00 PM',
     linkedAlertId: 'ALT-PGR-2026-205',
     linkedAlertTitle: 'Street Lighting & Night Safety Citizen Grievance Cluster',
-    progressPercentage: 100
+    progressPercentage: 100,
+    coordinates: { lat: 28.4242, lng: 77.1075 }
+  },
+  {
+    id: 'INT-2026-005',
+    title: 'Sector 14 Civic Center Storm Drain Desilting & Sump Pump Deployment',
+    description: 'Dispatch high-capacity suction de-silting machines to Sector 14 market center to clear blocked culverts ahead of expected storm inflow.',
+    department: 'Sanitation',
+    priority: 'Medium',
+    status: 'In Progress',
+    targetArea: 'Sector 14 (Central Gurugram)',
+    assignedOfficer: 'Er. Sandeep Gulia (Executive Engineer)',
+    assignedTeam: 'Central MCG Maintenance Wing',
+    createdAt: '2026-10-28 06:30 AM',
+    updatedAt: '2026-10-28 10:15 AM',
+    progressPercentage: 45,
+    coordinates: { lat: 28.4727, lng: 77.0425 }
+  },
+  {
+    id: 'INT-2026-006',
+    title: 'Sohna Rural Feeder Submersible Pump Overhaul & Tanker Relief',
+    description: 'Install replacement 25HP submersible pump in Sohna tubewell compound and position 2 standby drinking water tankers at Sohna Bus Stand.',
+    department: 'Water Supply',
+    priority: 'High',
+    status: 'Completed',
+    targetArea: 'Sohna Sub-Division',
+    assignedOfficer: 'Shri Vikram Phogat (Assistant Engineer)',
+    assignedTeam: 'Sohna Rural Water Division',
+    createdAt: '2026-10-27 08:00 AM',
+    updatedAt: '2026-10-28 05:00 AM',
+    linkedAlertId: 'ALT-WTR-2026-102',
+    linkedAlertTitle: 'Tubewell Borewell Motor Failure & Acute Supply Depletion',
+    progressPercentage: 100,
+    coordinates: { lat: 28.2490, lng: 77.0635 }
   }
 ];
 
@@ -390,19 +503,19 @@ export const MOCK_AI_EXPLANATIONS: Record<string, AiExplainResponse> = {
   'ALT-WTR-2026-089': {
     alertId: 'ALT-WTR-2026-089',
     whatChanged: [
-      'Citizen grievance volume in Ward 7 surged from a baseline of 100 to 138 reported cases within a 48-hour window (+38% increase).',
+      'Citizen grievance volume in Sector 4 & Subhash Nagar surged from a baseline of 100 to 138 reported cases within a 48-hour window (+38% increase).',
       'Average ticket turnaround time degraded from 2.0 days to 3.2 days (+60% deterioration in service level compliance).',
-      'Available operational field maintenance teams dropped from 8 active squads to 5 squads due to unscheduled equipment servicing and concurrent deployments in Ward 14.',
+      'Available operational field maintenance teams dropped from 8 active squads to 5 squads due to unscheduled equipment servicing and concurrent deployments in Sector 14.',
       'Telemetry on Feeder Pressure Station PS-07 showed pressure collapse from 2.4 bar to 0.9 bar, indicating possible joint rupture or illegal siphon breaches.'
     ],
     metricsEvidence: [
       {
-        metric: 'Grievance Clustering (Ward 7)',
+        metric: 'Grievance Clustering (Sector 4 / Subhash Nagar)',
         finding: '82% of newly submitted complaints explicitly report turbid/muddy water and sulfurous odor along Subhash Nagar Main Road.',
         confidence: 'High'
       },
       {
-        metric: 'Pressure Differential (PS-07 to Indirapuram)',
+        metric: 'Pressure Differential (PS-07 to Indirapuram / Sector 4)',
         finding: 'A sudden -1.5 bar drop occurred simultaneously with complaint spikes, correlating with a physical structural pipe breach.',
         confidence: 'High'
       },
@@ -414,14 +527,14 @@ export const MOCK_AI_EXPLANATIONS: Record<string, AiExplainResponse> = {
     ],
     consideredActions: [
       {
-        action: 'Deploy emergency drinking water tankers (4 units) to Indirapuram Sector 4 and Subhash Nagar community points.',
+        action: 'Deploy emergency drinking water tankers (4 units) to Sector 4 and Subhash Nagar community points.',
         expectedImpact: 'Mitigates immediate drinking water distress for ~14,000 residents while pipeline isolation proceeds.',
         tradeoff: 'High operating cost; temporary traffic slowdown along Subhash Nagar main road.'
       },
       {
-        action: 'Recall 3 maintenance crews from scheduled routine preventive line descaling in Ward 14.',
+        action: 'Recall 3 maintenance crews from scheduled routine preventive line descaling in Sector 14.',
         expectedImpact: 'Restores response squad availability to 8 squads, bringing backlog clearance timeline from 3.2 days back down to under 2.1 days.',
-        tradeoff: 'Delays non-critical maintenance in Ward 14 by 72 hours.'
+        tradeoff: 'Delays non-critical maintenance in Sector 14 by 72 hours.'
       },
       {
         action: 'Acoustic pipe correlator inspection of Feeder Line 3B junction.',
