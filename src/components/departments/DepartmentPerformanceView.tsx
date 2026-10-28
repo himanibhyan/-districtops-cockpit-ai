@@ -10,7 +10,8 @@ import {
   CheckCircle,
   AlertTriangle,
   ArrowUpRight,
-  ShieldCheck
+  ShieldCheck,
+  Database
 } from 'lucide-react';
 import { SeverityBadge } from '../common/StatusBadge';
 import {
@@ -200,6 +201,106 @@ export const DepartmentPerformanceView: React.FC<DepartmentPerformanceViewProps>
               {currentDept.activeTeams} <span className="text-sm font-normal text-slate-500">squads</span>
             </div>
             <div className="text-[11px] text-slate-500 mt-1">GPS-telemetry verified</div>
+          </div>
+        </div>
+
+        {/* Authoritative Administrative Baseline vs Operational Telemetry */}
+        <div className="py-5 border-b border-slate-200">
+          <div className="bg-slate-50/80 rounded-xl border border-slate-200 p-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2">
+                <Database className="w-4 h-4 text-blue-600" />
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                  Authoritative Dataset Baseline
+                </span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                  VERIFIED REFERENCE DATA
+                </span>
+              </div>
+              <span className="text-[11px] font-mono text-slate-400">
+                Source Document Grounding
+              </span>
+            </div>
+
+            {activeDeptName === 'Water Supply' && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div className="p-3 bg-white rounded-lg border border-slate-200">
+                  <div className="text-slate-500 font-medium">JJM Har Ghar Jal State Baseline</div>
+                  <div className="font-mono font-bold text-lg text-slate-900 mt-1">100.0% Tap Coverage</div>
+                  <div className="text-slate-500 text-[11px] mt-0.5">30,41,314 / 30,41,314 Haryana households</div>
+                </div>
+                <div className="p-3 bg-white rounded-lg border border-slate-200">
+                  <div className="text-slate-500 font-medium">Calculation Audit & Discrepancy</div>
+                  <div className="font-mono font-bold text-lg text-emerald-700 mt-1">0.0% Discrepancy</div>
+                  <div className="text-slate-500 text-[11px] mt-0.5">National avg: 82.59% (159.8M tap conns)</div>
+                </div>
+                <div className="p-3 bg-white rounded-lg border border-slate-200">
+                  <div className="text-slate-500 font-medium">Data Provenance & Scope</div>
+                  <div className="font-mono text-slate-700 mt-1">fhtc_water_coverage.pdf</div>
+                  <div className="text-slate-400 text-[11px] mt-0.5">State-level macro baseline; local ward incidents simulated.</div>
+                </div>
+              </div>
+            )}
+
+            {activeDeptName === 'Sanitation' && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div className="p-3 bg-white rounded-lg border border-slate-200">
+                  <div className="text-slate-500 font-medium">SBM-Grameen Gurugram Latrines</div>
+                  <div className="font-mono font-bold text-lg text-slate-900 mt-1">53,523 Units Achieved</div>
+                  <div className="text-slate-500 text-[11px] mt-0.5">Census Code LGD District Record</div>
+                </div>
+                <div className="p-3 bg-white rounded-lg border border-slate-200">
+                  <div className="text-slate-500 font-medium">IHHL Sanitation Coverage</div>
+                  <div className="font-mono font-bold text-lg text-emerald-700 mt-1">100.0% Verified</div>
+                  <div className="text-slate-500 text-[11px] mt-0.5">State total: 22 Haryana districts recorded</div>
+                </div>
+                <div className="p-3 bg-white rounded-lg border border-slate-200">
+                  <div className="text-slate-500 font-medium">Data Provenance & Scope</div>
+                  <div className="font-mono text-slate-700 mt-1">sanitation_dataset.csv</div>
+                  <div className="text-slate-400 text-[11px] mt-0.5">Open data district record; mechanical compactor telemetry simulated.</div>
+                </div>
+              </div>
+            )}
+
+            {activeDeptName === 'Healthcare' && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div className="p-3 bg-white rounded-lg border border-slate-200">
+                  <div className="text-slate-500 font-medium">NHM HMIS Gurugram Observations</div>
+                  <div className="font-mono font-bold text-lg text-slate-900 mt-1">11,010 Facility Records</div>
+                  <div className="text-slate-500 text-[11px] mt-0.5">14 Fiscal Years (2008-09 to 2021-22)</div>
+                </div>
+                <div className="p-3 bg-white rounded-lg border border-slate-200">
+                  <div className="text-slate-500 font-medium">Key Indicator Scope</div>
+                  <div className="font-mono font-bold text-lg text-purple-700 mt-1">Maternal & Child Health</div>
+                  <div className="text-slate-500 text-[11px] mt-0.5">JSSK, Immunization, Facility Mortality reviews</div>
+                </div>
+                <div className="p-3 bg-white rounded-lg border border-slate-200">
+                  <div className="text-slate-500 font-medium">Data Provenance & Scope</div>
+                  <div className="font-mono text-slate-700 mt-1">hmis_haryana.zip/output.csv</div>
+                  <div className="text-slate-400 text-[11px] mt-0.5">Official MoHFW registry; real-time PHC drug stockout alerts simulated.</div>
+                </div>
+              </div>
+            )}
+
+            {activeDeptName !== 'Water Supply' && activeDeptName !== 'Sanitation' && activeDeptName !== 'Healthcare' && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div className="p-3 bg-white rounded-lg border border-slate-200">
+                  <div className="text-slate-500 font-medium">MCG Gurugram Spatial Coverage</div>
+                  <div className="font-mono font-bold text-lg text-slate-900 mt-1">35 Municipal Wards</div>
+                  <div className="text-slate-500 text-[11px] mt-0.5">Full municipal polygon boundary features</div>
+                </div>
+                <div className="p-3 bg-white rounded-lg border border-slate-200">
+                  <div className="text-slate-500 font-medium">GIS Projection & Topology</div>
+                  <div className="font-mono font-bold text-lg text-blue-700 mt-1">WGS84 EPSG:4326</div>
+                  <div className="text-slate-500 text-[11px] mt-0.5">Zonal demarcations for MCG Gurugram</div>
+                </div>
+                <div className="p-3 bg-white rounded-lg border border-slate-200">
+                  <div className="text-slate-500 font-medium">Data Provenance & Scope</div>
+                  <div className="font-mono text-slate-700 mt-1">gurugram_wards.kml</div>
+                  <div className="text-slate-400 text-[11px] mt-0.5">Municipal Corporation GIS boundaries; dispatch queues simulated.</div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

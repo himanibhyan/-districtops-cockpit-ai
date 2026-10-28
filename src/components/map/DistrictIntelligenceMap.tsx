@@ -541,7 +541,7 @@ export const DistrictIntelligenceMap: React.FC<DistrictIntelligenceMapProps> = (
           </span>
         </div>
         <div className="font-mono text-slate-400">
-          DEMO ENVIRONMENT: Coordinates and incident markers are synthetic demonstration fixtures.
+          DEMO ENVIRONMENT: 35 MCG Ward boundaries loaded; operational telemetry and incident markers are simulated fixtures.
         </div>
       </div>
     </div>

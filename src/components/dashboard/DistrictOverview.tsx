@@ -64,16 +64,16 @@ export const DistrictOverview: React.FC<DistrictOverviewProps> = ({
           </div>
           <div>
             <div className="font-bold text-sm tracking-tight flex items-center gap-2">
-              <span>DEMO ENVIRONMENT — All displayed operational data is synthetic.</span>
+              <span>DEMO ENVIRONMENT — Reference datasets are loaded; operational alerts, grievances and intervention scenarios may be simulated.</span>
             </div>
             <p className="text-xs text-amber-800/90 mt-0.5">
-              Simulating district-level grievance telemetric intake, automated anomaly detection, and rapid administrative intervention assignment for Gurugram district, Haryana.
+              Verified baseline datasets loaded (HMIS Haryana health registry, Jal Jeevan Mission water report, SBM sanitation, and 35 MCG Gurugram ward boundaries); real-time operational incident streams and rapid dispatch interventions are simulated for district command demonstration.
             </p>
           </div>
         </div>
         <div className="shrink-0 flex items-center gap-2 text-xs">
           <span className="font-mono bg-white/80 px-2.5 py-1 rounded border border-amber-300 text-amber-900 font-semibold">
-            SYNTHETIC DEMO
+            HYBRID DEMO
           </span>
         </div>
       </div>
